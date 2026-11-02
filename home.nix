@@ -12,6 +12,7 @@
 				python3
 				telegram-desktop
 				vesktop
+				claude-code
 				#osu-lazer
 		];
 	};
@@ -27,9 +28,8 @@
 		shellAliases = {
 			nix-build = "sudo nixos-rebuild switch";
 			nix-hm = "home-manager switch";
-			nix-flake = "sudo nixos-rebuild switch --flake ~/.config/nix#vimyoung";
+			nix-flake = "sudo nixos-rebuild switch --flake .#vimyoung";
 			ff = "clear && fastfetch";
-			xmcl = "nix run github:x45iq/xmcl-nix";
 			};
 	};
 
@@ -49,7 +49,7 @@
 		systemd.enable = true;
 
 		settings = {
-			wallpaperDir = "/home/username/.wallpapers";
+			wallpaperDir = "/home/vimyoung/Downloads";
 
 			general = {
 				language = "ru";
