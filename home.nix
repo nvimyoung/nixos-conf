@@ -120,6 +120,7 @@
 		settings = {
 			user = {
 				name = "nvimyoung";
+				email = "40500524+nvimyoung@users.noreply.github.com";
 			};
 
 			init.defaultBranch = "main";
