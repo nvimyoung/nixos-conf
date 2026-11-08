@@ -1,0 +1,41 @@
+{ ... }:
+{
+	programs.serpantinum = {
+		enable = true;
+		systemd.enable = true;
+
+		settings = {
+			wallpaperDir = "/home/vimyoung/Downloads";
+
+			general = {
+				language = "ru";
+				weatherUnit = "metric";
+				weatherInterval = 30;
+			};
+
+			bar = {
+				position = "top";
+				style = "solid";
+				width = 40;
+				workspaceCount = 5;
+				modules = {
+					left = [ "workspaces" ];
+					center = [ "time" ];
+					right = [ "tray" [ "kb" "wifi" "bt" "vol" "bat" ] ];
+				};
+			};
+
+			theme = {
+				fontFamily = "Adwaita Mono";
+				borderRadius = 12;
+				matugen = true;
+			};
+
+			notifications = {
+				dnd = false;
+				position = "top right";
+				sound = true;
+			};
+		};
+	};
+}
