@@ -91,6 +91,7 @@
 		fd
 		wine
 		tree
+		pulseaudio
 		unar
 	];
 

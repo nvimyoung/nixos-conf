@@ -2,10 +2,10 @@
 {
 	imports = [
 		serpantinum.homeManagerModules.default
-
 		./dot/packages.nix
 		./dot/bash.nix
 		./dot/kitty.nix
+		./dot/niri.nix
 		./dot/serpantinum.nix
 		./dot/neovim.nix
 		./dot/firefox.nix
