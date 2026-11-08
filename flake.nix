@@ -13,7 +13,7 @@
 
     };
 
-    outputs = { self, nixpkgs, home-manager, serpantinum, xmcl, ... }: {
+    outputs = { self, nixpkgs, home-manager, serpantinum, ... }: {
       nixosConfigurations.vimyoung = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit serpantinum; };
