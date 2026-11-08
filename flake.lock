@@ -56,7 +56,8 @@
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "serpantinum": "serpantinum"
+        "serpantinum": "serpantinum",
+        "xmcl": "xmcl"
       }
     },
     "serpantinum": {
@@ -91,6 +92,26 @@
       "original": {
         "owner": "ilyamiro",
         "repo": "shell-wallpapers",
+        "type": "github"
+      }
+    },
+    "xmcl": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793714098,
+        "narHash": "sha256-5rIypx5rcSxRTyZ3AoAVF8jkio8Vh6dTlyG/Y8UirZA=",
+        "owner": "x45iq",
+        "repo": "xmcl-nix",
+        "rev": "9da282a0de6d1a165d332a700079a84071d97b93",
+        "type": "github"
+      },
+      "original": {
+        "owner": "x45iq",
+        "repo": "xmcl-nix",
         "type": "github"
       }
     }

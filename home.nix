@@ -12,7 +12,7 @@
 				python3
 				telegram-desktop
 				vesktop
-				claude-code
+				opencode
 				#osu-lazer
 		];
 	};

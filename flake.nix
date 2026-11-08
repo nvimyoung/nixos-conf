@@ -1,5 +1,5 @@
 {
-  description = "vimyoung NixOS configuration";
+  description = "nvimyoung NixOS configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -8,12 +8,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    
     serpantinum.url = "github:ilyamiro/serpantinum";
 
     };
 
-    outputs = { self, nixpkgs, home-manager, serpantinum, ... }: {
+    outputs = { self, nixpkgs, home-manager, serpantinum, xmcl, ... }: {
       nixosConfigurations.vimyoung = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit serpantinum; };
