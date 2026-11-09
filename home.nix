@@ -9,7 +9,6 @@
 		./dot/serpantinum.nix
 		./dot/neovim.nix
 		./dot/firefox.nix
-		./dot/gh.nix
 		./dot/git.nix
 	];
 

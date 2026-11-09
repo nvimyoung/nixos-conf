@@ -24,4 +24,6 @@
 			};
 		};
 	};
+
+	programs.gh.enable = true;
 }
