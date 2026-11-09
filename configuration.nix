@@ -71,8 +71,6 @@
 		extraGroups = [ "wheel" "input" "networkmanager"]; 	# Enable ‘sudo’ for the user.
 	};
 
-	programs.firefox.enable = true;
-
 	programs.steam = {
 		enable = true;
 		remotePlay.openFirewall = true;  	# Open ports in the firewall for Steam Remote Play
@@ -84,15 +82,9 @@
 	# List packages installed in system profile.
 	# You can use https://search.nixos.org/ to find more packages (and options).
 	environment.systemPackages = with pkgs; [ 
-		brightnessctl
-		btop
 		home-manager
 		xwayland-satellite
-		fd
-		wine
-		tree
 		pulseaudio
-		unar
 	];
 
 	# Enable Unfree software for install
@@ -104,12 +96,33 @@
 	#binfmt = true;
 	#};
 
-	# Delate older generation
+	# Delete older generations
 	nix.gc = {
 		automatic = true;
 		dates = "daily";
-		options = "--delete-older-than 1d";
+		options = "--delete-older-than 7d";
 	};
+
+	nix.settings.auto-optimise-store = true;
+	nix.optimise.automatic = true;
+
+	boot.loader.systemd-boot.configurationLimit = 10;
+	boot.tmp.cleanOnBoot = true;
+
+	# Cooling and performance
+	services.thermald.enable = true;
+
+	hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
+	hardware.graphics.extraPackages32 = [ pkgs.pkgsi686Linux.intel-media-driver ];
+
+	zramSwap.enable = true;
+
+	boot.kernel.sysctl = {
+		"vm.swappiness" = 100;
+		"vm.page-cluster" = 0;
+	};
+
+	services.irqbalance.enable = true;
 
 	# boot.karnelParams = [ "quiet" "loglevel=3"];
 	# Some programs need SUID wrappers, can be configured further or are

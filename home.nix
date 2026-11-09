@@ -19,6 +19,8 @@
 		stateVersion = "26.05";
 	};
 
+	home.file."wall/.keep".text = "";
+
 	home.pointerCursor = {
 		enable = true;
 		package = pkgs.bibata-cursors;

@@ -5,7 +5,7 @@
 		systemd.enable = true;
 
 		settings = {
-			wallpaperDir = "/home/vimyoung/Downloads";
+			wallpaperDir = "/home/vimyoung/wall";
 
 			general = {
 				language = "ru";

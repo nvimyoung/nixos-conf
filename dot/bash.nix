@@ -3,10 +3,40 @@
 	programs.bash = {
 		enable = true;
 		shellAliases = {
-			nix-build = "sudo nixos-rebuild switch";
-			nix-hm = "home-manager switch";
-			nix-flake = "sudo nixos-rebuild switch --flake .#vimyoung";
+			nix-build = "nh os switch . --hostname vimyoung";
+			nix-hm = "nh os switch . --hostname vimyoung";
+			nix-flake = "nh os switch . --hostname vimyoung";
 			ff = "clear && fastfetch";
 		};
+	};
+
+	programs.zoxide = {
+		enable = true;
+		enableBashIntegration = true;
+	};
+
+	programs.fzf = {
+		enable = true;
+		enableBashIntegration = true;
+	};
+
+	programs.direnv = {
+		enable = true;
+		enableBashIntegration = true;
+		nix-direnv.enable = true;
+	};
+
+	programs.bat.enable = true;
+
+	programs.eza = {
+		enable = true;
+		enableBashIntegration = true;
+	};
+
+	programs.lazygit.enable = true;
+
+	programs.yazi = {
+		enable = true;
+		enableBashIntegration = true;
 	};
 }
