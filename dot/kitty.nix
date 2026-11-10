@@ -1,6 +1,9 @@
 { ... }:
 {
-	xdg.configFile."kitty/kitty.conf".force = true;
+	xdg.configFile."kitty/colors.conf" = {
+		text = builtins.readFile ./kitty-colors.conf;
+		force = true;
+	};
 
 	programs.kitty = {
 		enable = true;
@@ -9,7 +12,7 @@
 			background_opacity = "0.50";
 		};
 		extraConfig = ''
-			include /home/vimyoung/.config/kitty/colors.conf
+			include ~/.config/kitty/colors.conf
 		'';
 	};
 }

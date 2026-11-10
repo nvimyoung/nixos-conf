@@ -10,12 +10,27 @@
 		./dot/neovim.nix
 		./dot/firefox.nix
 		./dot/git.nix
+		./dot/fastfetch.nix
+		./dot/btop.nix
+		./dot/opencode.nix
 	];
 
 	home = {
 		username = "vimyoung";
 		homeDirectory = "/home/vimyoung";
 		stateVersion = "26.05";
+	};
+
+	home.sessionVariables = {
+		EDITOR = "nvim";
+		VISUAL = "nvim";
+		NIXOS_OZONE_WL = "1";
+		MOZ_ENABLE_WAYLAND = "1";
+	};
+
+	qt = {
+		enable = true;
+		platformTheme.name = "gtk3";
 	};
 
 	home.file."wall/.keep".text = "";

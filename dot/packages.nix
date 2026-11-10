@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {
 	home.packages = with pkgs; [
-		fastfetch
-		btop
 		brightnessctl
 		fd
 		tree
@@ -14,10 +12,10 @@
 		telegram-desktop
 		vesktop
 		wine
-		opencode
 		#osu-lazer
 		nh
 		nvd
 		nix-output-monitor
+		playerctl
 	];
 }

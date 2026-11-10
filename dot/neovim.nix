@@ -2,6 +2,7 @@
 {
 	programs.neovim = {
 		enable = true;
+		defaultEditor = true;
 		extraPackages = [ pkgs.wl-clipboard ];
 		initLua = ''
 			vim.opt.termguicolors = true

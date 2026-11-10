@@ -13,7 +13,7 @@
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	networking.hostName = "nixos"; 	# Define your hostname.
+	networking.hostName = "vimyoung"; 	# Define your hostname.
 
 	# Configure network connections interactively with nmcli or nmtui.
 	networking.networkmanager.enable = true;
@@ -30,6 +30,17 @@
 
 	# Select internationalisation properties.
 	i18n.defaultLocale = "ru_RU.UTF-8";
+	i18n.extraLocaleSettings = {
+		LC_ADDRESS = "ru_RU.UTF-8";
+		LC_IDENTIFICATION = "ru_RU.UTF-8";
+		LC_MEASUREMENT = "ru_RU.UTF-8";
+		LC_MONETARY = "ru_RU.UTF-8";
+		LC_NAME = "ru_RU.UTF-8";
+		LC_NUMERIC = "ru_RU.UTF-8";
+		LC_PAPER = "ru_RU.UTF-8";
+		LC_TELEPHONE = "ru_RU.UTF-8";
+		LC_TIME = "ru_RU.UTF-8";
+	};
 
 	# console = {
 	#   font = "Lat2-Terminus16";
@@ -68,7 +79,7 @@
 	# Define a user account. Don't forget to set a password with ‘passwd’.
 	users.users.vimyoung = {
 		isNormalUser = true;
-		extraGroups = [ "wheel" "input" "networkmanager"]; 	# Enable ‘sudo’ for the user.
+		extraGroups = [ "wheel" "input" "networkmanager" "video" "render" ]; 	# Enable ‘sudo’ for the user.
 	};
 
 	programs.steam = {
@@ -115,6 +126,20 @@
 	hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
 	hardware.graphics.extraPackages32 = [ pkgs.pkgsi686Linux.intel-media-driver ];
 
+	hardware.enableAllFirmware = true;
+	services.fstrim.enable = true;
+	services.fwupd.enable = true;
+	services.gvfs.enable = true;
+	services.udisks2.enable = true;
+
+	xdg.portal = {
+		enable = true;
+		extraPortals = [
+			pkgs.xdg-desktop-portal-gtk
+			pkgs.xdg-desktop-portal-gnome
+		];
+	};
+
 	zramSwap.enable = true;
 
 	boot.kernel.sysctl = {
@@ -124,7 +149,7 @@
 
 	services.irqbalance.enable = true;
 
-	# boot.karnelParams = [ "quiet" "loglevel=3"];
+	# boot.kernelParams = [ "quiet" "loglevel=3" ];
 	# Some programs need SUID wrappers, can be configured further or are
 	# started in user sessions.
 	# programs.mtr.enable = true;

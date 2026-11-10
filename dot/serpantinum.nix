@@ -1,11 +1,11 @@
-{ ... }:
+{ config, ... }:
 {
 	programs.serpantinum = {
 		enable = true;
 		systemd.enable = true;
 
 		settings = {
-			wallpaperDir = "/home/vimyoung/wall";
+			wallpaperDir = "${config.home.homeDirectory}/wall";
 
 			general = {
 				language = "ru";

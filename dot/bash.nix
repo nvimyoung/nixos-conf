@@ -3,9 +3,7 @@
 	programs.bash = {
 		enable = true;
 		shellAliases = {
-			nix-build = "nh os switch . --hostname vimyoung";
-			nix-hm = "nh os switch . --hostname vimyoung";
-			nix-flake = "nh os switch . --hostname vimyoung";
+			switch = "nh os switch . --hostname vimyoung";
 			ff = "clear && fastfetch";
 		};
 	};

@@ -8,3 +8,13 @@ secrets/
 .env.*
 *.pem
 *.key
+
+# Direnv
+.direnv/
+
+# Logs
+*.log
+logs/
+
+# macOS
+.DS_Store

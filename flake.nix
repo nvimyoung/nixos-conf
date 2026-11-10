@@ -9,11 +9,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
-    serpantinum.url = "github:ilyamiro/serpantinum";
+    serpantinum = {
+      url = "github:ilyamiro/serpantinum";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     };
 
     outputs = { self, nixpkgs, home-manager, serpantinum, ... }: {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+
       nixosConfigurations.vimyoung = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit serpantinum; };
