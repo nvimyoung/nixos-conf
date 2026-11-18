@@ -1,11 +1,12 @@
+# Per-user configuration (Home Manager) for "vimyoung".
 { config, pkgs, serpantinum, ... }:
 {
+	# One module per application or topic.
 	imports = [
 		serpantinum.homeManagerModules.default
 		./dot/packages.nix
 		./dot/bash.nix
 		./dot/kitty.nix
-		./dot/niri.nix
 		./dot/serpantinum.nix
 		./dot/neovim.nix
 		./dot/firefox.nix
@@ -15,12 +16,26 @@
 		./dot/opencode.nix
 	];
 
+	# Basic account settings; never change stateVersion after the first install.
 	home = {
 		username = "vimyoung";
 		homeDirectory = "/home/vimyoung";
 		stateVersion = "26.05";
 	};
 
+	# Create the standard XDG folders (Downloads, Documents, ...).
+	xdg.userDirs = {
+		enable = true;
+		createDirectories = true;
+	};
+
+	# niri compositor config, kept as plain KDL in dot/config.kdl.
+	xdg.configFile."niri/config.kdl" = {
+		source = ./dot/config.kdl;
+		force = true;
+	};
+
+	# Default programs and Wayland flags for GUI toolkits.
 	home.sessionVariables = {
 		EDITOR = "nvim";
 		VISUAL = "nvim";
@@ -28,13 +43,13 @@
 		MOZ_ENABLE_WAYLAND = "1";
 	};
 
+	# Use the GTK3 theme for Qt applications.
 	qt = {
 		enable = true;
 		platformTheme.name = "gtk3";
 	};
 
-	home.file."wall/.keep".text = "";
-
+	# Bibata mouse cursor for Wayland and X11 applications.
 	home.pointerCursor = {
 		enable = true;
 		package = pkgs.bibata-cursors;

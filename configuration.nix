@@ -1,145 +1,136 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
+# System-wide NixOS configuration for the "vimyoung" laptop.
+# Rebuild with: nh os switch . --hostname vimyoung
 
 { config, lib, pkgs, ... }:
 
 {
-	imports = [ 	# Include the results of the hardware scan.
+	# Include the hardware scan (disks, kernel modules, CPU).
+	imports = [
 		./host/hardware-configuration.nix
-		];
+	];
 
-	# Use the systemd-boot EFI boot loader.
+	# Boot with systemd-boot on EFI.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	networking.hostName = "vimyoung"; 	# Define your hostname.
+	# Hostname on the local network.
+	networking.hostName = "vimyoung";
 
-	# Configure network connections interactively with nmcli or nmtui.
+	# NetworkManager handles Wi-Fi and Ethernet (use nmcli or nmtui).
 	networking.networkmanager.enable = true;
 
-	# Set your time zone.
+	# Local time zone.
 	time.timeZone = "Europe/Kyiv";
 
-	#Enable flakes in nix
+	# Enable flakes and the unified `nix` command.
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-	# Configure network proxy if necessary
+	# Optional HTTP proxy (uncomment and adjust if needed).
 	# networking.proxy.default = "http://user:password@proxy:port/";
 	# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-	# Select internationalisation properties.
+	# System language and locale.
 	i18n.defaultLocale = "ru_RU.UTF-8";
-	i18n.extraLocaleSettings = {
-		LC_ADDRESS = "ru_RU.UTF-8";
-		LC_IDENTIFICATION = "ru_RU.UTF-8";
-		LC_MEASUREMENT = "ru_RU.UTF-8";
-		LC_MONETARY = "ru_RU.UTF-8";
-		LC_NAME = "ru_RU.UTF-8";
-		LC_NUMERIC = "ru_RU.UTF-8";
-		LC_PAPER = "ru_RU.UTF-8";
-		LC_TELEPHONE = "ru_RU.UTF-8";
-		LC_TIME = "ru_RU.UTF-8";
-	};
 
+	# Text console settings (usually not needed with a graphical login).
 	# console = {
 	#   font = "Lat2-Terminus16";
 	#   keyMap = "us";
 	#   useXkbConfig = true; 	# use xkb.options in tty.
 	# };
 
-	# Enable the X11 windowing system.
-	# services.xserver.enable = true;
-
-	# Enable Wayland WM niri
-	programs.niri.enable = true;  
-
-	#programs.hyprland.enable = true;
-
+	# Wayland session: niri compositor with the GDM login screen.
+	programs.niri.enable = true;
 	services.displayManager.gdm.enable = true;
 
-	# Configure keymap in X11
+	# X11 is not used; xwayland-satellite covers legacy X applications.
+	# services.xserver.enable = true;
+
+	# Alternative tiling compositor (disabled).
+	# programs.hyprland.enable = true;
+
+	# X11 keymap (only relevant when X11 is enabled).
 	# services.xserver.xkb.layout = "us";
 	# services.xserver.xkb.options = "eurosign:e,caps:escape";
 
-	# Enable CUPS to print documents.
-	#services.printing.enable = true;
+	# Printing support (disabled).
+	# services.printing.enable = true;
 
-	# Enable sound.
-	# services.pulseaudio.enable = true;
-	# OR
+	# PipeWire handles sound for native and PulseAudio applications.
 	services.pipewire = {
 		enable = true;
 		pulse.enable = true;
 	};
 
-	# Enable touchpad support (enabled default in most desktopManager).
+	# Touchpad support (usually enabled by the desktop manager).
 	# services.libinput.enable = true;
 
-	# Define a user account. Don't forget to set a password with ‘passwd’.
+	# Main user account; set the password once with `passwd`.
 	users.users.vimyoung = {
 		isNormalUser = true;
-		extraGroups = [ "wheel" "input" "networkmanager" "video" "render" ]; 	# Enable ‘sudo’ for the user.
+		extraGroups = [ "wheel" "input" "networkmanager" "video" "render" ]; 	# `wheel` enables sudo.
 	};
 
+	# Steam with ports opened for Remote Play and game servers.
 	programs.steam = {
 		enable = true;
-		remotePlay.openFirewall = true;  	# Open ports in the firewall for Steam Remote Play
-		dedicatedServer.openFirewall = true; 	# Open ports for Source Dedicated Server hosting
+		remotePlay.openFirewall = true;
+		dedicatedServer.openFirewall = true;
 	};
-	
+
+	# Desktop shell: bar, launcher, lock screen and theming.
 	programs.serpantinum.enable = true;
 
-	# List packages installed in system profile.
-	# You can use https://search.nixos.org/ to find more packages (and options).
-	environment.systemPackages = with pkgs; [ 
-		home-manager
+	# System-wide packages (user tools live in Home Manager).
+	environment.systemPackages = with pkgs; [
 		xwayland-satellite
 		pulseaudio
 	];
 
-	# Enable Unfree software for install
+	# Adwaita Mono is used by serpantinum (theme.fontFamily).
+	fonts.packages = [ pkgs.adwaita-fonts ];
+
+	# Allow proprietary software.
 	nixpkgs.config.allowUnfree = true;
 
-	# Appimage enable
-	#programs.appimage = {
-	#enable = true;
-	#binfmt = true;
-	#};
+	# ventoy is flagged insecure in nixpkgs (bundled binaries with CVEs).
+	# Prefer `nix shell nixpkgs#ventoy` instead of installing it permanently.
+	nixpkgs.config.permittedInsecurePackages = [ "ventoy-1.1.18" ];
 
-	# Delete older generations
+	# AppImage support (disabled).
+	# programs.appimage = {
+	#   enable = true;
+	#   binfmt = true;
+	# };
+
+	# Garbage-collect old generations once a day.
 	nix.gc = {
 		automatic = true;
 		dates = "daily";
 		options = "--delete-older-than 7d";
 	};
 
+	# Deduplicate files in the Nix store.
 	nix.settings.auto-optimise-store = true;
-	nix.optimise.automatic = true;
 
+	# Keep ten boot entries and clean /tmp on boot.
 	boot.loader.systemd-boot.configurationLimit = 10;
 	boot.tmp.cleanOnBoot = true;
 
-	# Cooling and performance
+	# Thermal management and Intel media drivers.
 	services.thermald.enable = true;
 
 	hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
 	hardware.graphics.extraPackages32 = [ pkgs.pkgsi686Linux.intel-media-driver ];
 
+	# Firmware updates and storage maintenance.
 	hardware.enableAllFirmware = true;
 	services.fstrim.enable = true;
 	services.fwupd.enable = true;
 	services.gvfs.enable = true;
 	services.udisks2.enable = true;
 
-	xdg.portal = {
-		enable = true;
-		extraPortals = [
-			pkgs.xdg-desktop-portal-gtk
-			pkgs.xdg-desktop-portal-gnome
-		];
-	};
-
+	# Compressed RAM swap for better responsiveness.
 	zramSwap.enable = true;
 
 	boot.kernel.sysctl = {
@@ -147,50 +138,32 @@
 		"vm.page-cluster" = 0;
 	};
 
+	# Spread interrupts across CPU cores.
 	services.irqbalance.enable = true;
 
+	# Quiet boot (optional).
 	# boot.kernelParams = [ "quiet" "loglevel=3" ];
-	# Some programs need SUID wrappers, can be configured further or are
-	# started in user sessions.
+
+	# SUID helpers and the GPG agent (disabled).
 	# programs.mtr.enable = true;
 	# programs.gnupg.agent = {
 	#   enable = true;
 	#   enableSSHSupport = true;
 	# };
 
-	# List services that you want to enable:
-
-	# Enable the OpenSSH daemon.
+	# Remote shell access (disabled).
 	# services.openssh.enable = true;
 
-	# Open ports in the firewall.
+	# Firewall ports (the firewall stays enabled by default).
 	# networking.firewall.allowedTCPPorts = [ ... ];
 	# networking.firewall.allowedUDPPorts = [ ... ];
-	# Or disable the firewall altogether.
 	# networking.firewall.enable = false;
 
-	# Copy the NixOS configuration file and link it from the resulting system
-	# (/run/current-system/configuration.nix). This is useful in case you
-	# accidentally delete configuration.nix.
+	# Keep a copy of this configuration in the system profile (disabled).
 	# system.copySystemConfiguration = true;
 
-	# This option defines the first version of NixOS you have installed on this particular machine,
-	# and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-	#
-	# Most users should NEVER change this value after the initial install, for any reason,
-	# even if you've upgraded your system to a new NixOS release.
-	#
-	# This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-	# so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/	#sec-upgrading for how
-	# to actually do that.
-	#
-	# This value being lower than the current NixOS release does NOT mean your system is
-	# out of date, out of support, or vulnerable.
-	#
-	# Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-	# and migrated your data accordingly.
-	#
-	# For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options	#opt-system.stateVersion .
-	system.stateVersion = "26.05"; 	# Did you read the comment?
+	# Initial NixOS release; do not change after installation.
+	# See https://nixos.org/manual/nixos/stable/#sec-upgrading
+	# and https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion
+	system.stateVersion = "26.05";
 }
-

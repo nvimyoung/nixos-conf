@@ -1,21 +1,28 @@
 { pkgs, ... }:
 {
+	# User packages that are not tied to a specific module.
 	home.packages = with pkgs; [
+		# Brightness and media keys.
 		brightnessctl
+		playerctl
+
+		# File search and archives.
 		fd
 		tree
 		unar
+
+		# Audio visualizer, office suite and scripting.
 		cava
 		libreoffice
-		#libresprite
 		python3
+
+		# Messengers and Windows compatibility.
 		telegram-desktop
 		vesktop
 		wine
-		#osu-lazer
+
+		# USB imaging and the NixOS rebuild helper.
+		ventoy
 		nh
-		nvd
-		nix-output-monitor
-		playerctl
 	];
 }

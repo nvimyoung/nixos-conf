@@ -8,31 +8,37 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  # Storage, USB and CPU kernel modules.
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  # Root filesystem (ext4).
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/91ba8b37-b8d4-4459-a5dc-72686614b093";
       fsType = "ext4";
     };
 
+  # EFI system partition.
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/DA93-198F";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
+  # Secondary data disk.
   fileSystems."/hdd" =
     { device = "/dev/disk/by-uuid/19c8c389-b3c2-4078-8228-e988fb78f04b";
       fsType = "ext4";
     };
 
+  # Swap partition.
   swapDevices =
     [ { device = "/dev/disk/by-uuid/29cc8095-deb7-4363-b438-8992b7ad664c"; }
     ];
 
+  # Platform and Intel microcode updates.
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

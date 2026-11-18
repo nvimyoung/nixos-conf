@@ -1,5 +1,6 @@
 { ... }:
 {
+	# System monitor: TTY colors, transparent background, vim keys.
 	programs.btop = {
 		enable = true;
 		settings = {
